@@ -1,0 +1,156 @@
+<html>
+  <head>
+    <title>MobileNet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Uchen&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="main.js"></script>
+  </head>
+
+  <body>
+
+    <center>
+        <h2 style="color: blue;">Case Study
+            <img class="b" src="Screenshot (26).png"
+        </h2>
+      <ol>
+
+            <div class="test_result_and_image">
+                <li>
+                    <b class="bold_img_dont">Test Image</b>
+                    <div class="img_div_dont"><img style="margin-top: 20px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiNogoGPnDT7Pp00zbMqmq8OPVOIOfZjSWDA&usqp=CAU" class="img_responsive"></div>
+                </li>
+                <h5 class="result_models">Output on <b class="model_bold">Microsoft Azure - </b></h5>
+                <span id="microsoft_azure_ans"></span>
+               
+                <h5 class="result_models">Output on <b class="model_bold">Mobilenet - </b></h5>
+                <span> </span>
+
+            <div class="bob3">
+                <h4>Result - </h4>
+                <hr>
+                <h4> </h4>
+            </div>
+
+            </div>
+    <hr>
+            <div class="test_result_and_image">
+                <li>
+                    <b class="bold_img_dont">Test Image</b>
+                    <div class="img_div_dont"><img style="margin-top: 20px;" src="data:image/jpeg;base64,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" class="img_responsive"></div>               
+                 </li>
+                <h5 class="result_models">Output on <b class="model_bold">Microsoft Azure - </b></h5>
+                <span id="microsoft_azure_ans"></span>
+               
+                <h5 class="result_models">Output on <b class="model_bold">Mobilenet - </b></h5>
+                <span> </span>
+
+            <div class="bob3">
+                <h4>Result - </h4>
+                <hr>
+                <h4> </h4>
+            </div>
+
+            </div>
+    <hr>
+            <div class="test_result_and_image">
+                <li>
+                    <b class="bold_img_dont">Test Image</b>
+                    <div class="img_div_dont"><img style="margin-top: 20px;" src="download (1).jpg" class="img_resonsive"></div>                
+                    <h5 class="result_models">Output on <b class="model_bold">Microsoft Azure - </b></h5>
+                    <span></span>
+               
+                <h5 class="result_models">Output on <b class="model_bold">Mobilenet - </b></h5>
+                <span> </span>
+
+            <div class="bob3">
+                <h4>Result - </h4>
+                <hr>
+                <h4> </h4>
+            </div>
+
+            </div>
+    <hr>
+            <div class="test_result_and_image">
+                <li>
+                    <b class="bold_img_dont">Test Image</b>
+                    <div class="img_div_dont"><img style="margin-top: 20px;" src="download.jpg" class="img_responsive"></div>                </li>
+                <h5 class="result_models">Output on <b class="model_bold">Microsoft Azure - </b></h5>
+                <span id="microsoft_azure_ans"></span>
+               
+                <h5 class="result_models">Output on <b class="model_bold">Mobilenet - </b></h5>
+                <span> </span>
+
+            <div class="bob3">
+                <h4>Result - </h4>
+                <hr>
+                <h4> </h4>
+            </div>
+
+            </div>
+    <hr>
+            <div class="test_result_and_image">
+                <li>
+                    <b class="bold_img_dont">Test Image
+                        <div class="img_div_dont"><img style="margin-top: 20px;" src="download.png" class="img_responsive"></b></div>
+                </li>
+                <h5 class="result_models">Output on <b class="model_bold">Microsoft Azure - </b></h5>
+                <span id="microsoft_azure_ans"></span>
+                
+                <h5 class="result_models">Output on <b class="model_bold">Mobilenet - </b></h5>
+                <span> </span>
+
+            <div class="bob3">
+                <h4>Result - </h4>
+                <hr>
+                <h4> </h4>
+            </div>
+
+            </div>
+    <hr>
+            <div class="test_result_and_image">
+                <li>
+                    <b class="bold_img_dont">Test Image</b>
+                    <div class="img_div_dont"><img style="margin-top: 20px;" src="download (2).jpg" class="img_responsive"></div>                </li>
+                <h5 class="result_models">Output on <b class="model_bold">Microsoft Azure - </b></h5>
+                <span id="microsoft_azure_ans"></span>
+                
+                <h5 class="result_models">Output on <b class="model_bold">Mobilenet - </b></h5>
+                <span> </span>
+
+            <div class="bob3">
+                <h4>Result - </h4>
+                <hr>
+                <h4> </h4>
+            </div>
+
+            </div>
+    <hr>
+            <div class="test_result_and_image">
+                <li>
+                    <b class="bold_img_dont">Test Image</b>
+                    <div class="img_div_dont"><img style="margin-top: 20px;" src="Lantern-Led-Snow-With-3-Candles-2.jpg" class="img_responsive"></div>                </li>
+                <h5 class="result_models">Output on <b class="model_bold">Microsoft Azure - </b></h5>
+                <span id="microsoft_azure_ans"></span>
+
+                <h5 class="result_models">Output on <b class="model_bold">Mobilenet - </b></h5>
+                <span> </span>
+            
+            <div class="bob3">
+                <h4>Result - </h4>
+                <hr>
+                <h4> </h4>
+            </div>
+
+            </div>
+
+        </ol>
+    </center>
+  </body>
